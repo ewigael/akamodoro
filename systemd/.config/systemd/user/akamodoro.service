@@ -1,0 +1,13 @@
+[Unit]
+Description=Akamodoro daemon
+After=default.target
+
+[Service]
+Type=simple
+Environment=XDG_RUNTIME_DIR=%t
+ExecStart=%h/.local/bin/akamodoro-daemon
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=default.target
