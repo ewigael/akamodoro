@@ -54,6 +54,9 @@ class AkaTimer():
 		self.status = "standby"
 		self.end_time = 0
 	
+	def next(self):
+		self.set_timer(self.sequence[(self.sequence.index(self.status) + 2) % len(self.sequence) - 1])
+	
 	def get_remaining(self):
 		return(max(0, int(self.end_time - time.monotonic())))
 	
@@ -82,12 +85,13 @@ def exec_cmd(timer, cmd):
 			work2
 			short_brk
 			long_brk
+			next
 			remaining
 			start
 			stop
 	'''
 
-	result = None
+	result = "OK"
 	match cmd:
 		case "inline":
 			result = timer.get_inline()
@@ -101,6 +105,8 @@ def exec_cmd(timer, cmd):
 			timer.start()
 		case "stop":
 			timer.stop()
+		case "next":
+			timer.next()
 		case "remaining":
 			result = timer.get_remaining()
 		case _:
