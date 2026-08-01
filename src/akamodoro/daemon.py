@@ -7,15 +7,15 @@ from pathlib import Path
 SOCKET_PATH = os.environ["XDG_RUNTIME_DIR"] + "/akamodoro.sock"
 
 def gen_powerline(
-	content, background="white", color="black", left="", right="", bar_bg="black"
+	content, background="white", color="black", left="", right=""
 ):
 	"""
 	Generates a powerline style string
 	"""
 	return (
-		f'<span background="{bar_bg}" color="{background}">{left}</span>'
+		f'<span color="{background}">{left}</span>'
 		+ f'<span background="{background}" color="{color}"> {content} </span>'
-		+ f'<span background="{bar_bg}" color="{background}">{right}</span>'
+		+ f'<span color="{background}">{right}</span>'
 	)
 
 class AkaTimer():
