@@ -41,11 +41,11 @@ def run_applet(x, y):
 	layout = [
 		[TITLE],
 		[sg.Button("Re-START", key="start", **BTN)],
+		[sg.Button("Next", key="next", **BTN)],
 		[
 			sg.Button("Short Brk", key="short_brk", **BTN),
 			sg.Button("Long Brk", key="long_brk", **BTN)
 		],
-		[sg.Button("Next", key="next", **BTN)],
 		[
 			sg.Button("Stop", key="stop", **BTN),
 			sg.Button("Resume", key="resume", **BTN)
