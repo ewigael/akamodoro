@@ -134,11 +134,12 @@ def main():
 		try:
 			# Timeout for connection is 1 second
 			conn, _ = sock.accept()
+
 		except socket.timeout:
 			# run rest of the program
 			timer.update()
 			time.sleep(0.5)
-			continue
+
 		else:
 			# Connection established,
 			# Interpreting command
