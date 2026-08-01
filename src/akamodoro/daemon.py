@@ -28,12 +28,13 @@ class AkaTimer():
 		"short_brk": 5 * 60,
 		"long_brk": 15 * 60,
 	}
-	status_times = {
-		"work1": 5,
-		"work2": 5,
-		"short_brk": 5,
-		"long_brk": 5,
-	}
+	# dev times
+	# status_times = {
+	# 	"work1": 5,
+	# 	"work2": 5,
+	# 	"short_brk": 5,
+	# 	"long_brk": 5,
+	# }
 	status_inline = {
 		"standby": "",
 		"work1": "WRK-1",
