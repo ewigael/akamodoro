@@ -3,6 +3,7 @@ import socket
 import time
 import os
 from pathlib import Path
+import subprocess
 
 SOCKET_PATH = os.environ["XDG_RUNTIME_DIR"] + "/akamodoro.sock"
 
@@ -25,12 +26,25 @@ class AkaTimer():
 		"short_brk": 5 * 60,
 		"long_brk": 15 * 60,
 	}
-	status_pretty = {
+	status_times = {
+		"work1": 5,
+		"work2": 5,
+		"short_brk": 5,
+		"long_brk": 5,
+	}
+	status_inline = {
 		"standby": "",
 		"work1": "WRK-1",
 		"work2": "WRK-2",
 		"short_brk": "BRK-1",
 		"long_brk": "BRK-2",
+	}
+	status_name = {
+		"standby": "Standing by",
+		"work1": "Focus phase",
+		"work2": "Focus phase",
+		"short_brk": "Short Break",
+		"long_brk": "Long Break",
 	}
 	sequence = [
 		"work1",
@@ -61,11 +75,19 @@ class AkaTimer():
 		return(max(0, int(self.end_time - time.monotonic())))
 	
 	def get_inline(self, pli=False):
-		result = self.status_pretty[self.status] if pli else self.status
+		result = self.status_inline[self.status] if pli else self.status
 		if self.status != "standby":
 			m, s = divmod(self.get_remaining(), 60)
 			result += f" {m:02}:{s:02}"
 		return gen_powerline(" ".join(["", result]).strip(), "#c52233", "#360713") if pli else result
+
+	def notify(self, message, title="AKAMDORO"):
+		subprocess.run([
+			"notify-send",
+			"--app-name=akamodoro-daemon",
+			title,
+			message
+		])
 
 	def update(self):
 		if self.status not in self.sequence:
@@ -73,7 +95,9 @@ class AkaTimer():
 
 		if self.get_remaining() == 0:
 			current = self.sequence.index(self.status)
-			self.set_timer(self.sequence[current + 1] if current + 1 < len(self.sequence) else self.sequence[0])
+			nxt = self.sequence[current + 1] if current + 1 < len(self.sequence) else self.sequence[0]
+			self.notify(f"{self.status_name[self.status]} ended!\nStarting {self.status_name[nxt]}")
+			self.set_timer(nxt)
 
 def exec_cmd(timer, cmd):
 	'''
