@@ -4,8 +4,10 @@ import time
 import os
 from pathlib import Path
 import subprocess
+from importlib.resources import files
 
 SOCKET_PATH = os.environ["XDG_RUNTIME_DIR"] + "/akamodoro.sock"
+ICON_PATH = files("akamodoro.assets") / "akamodoro_50x60.png"
 
 def gen_powerline(
 	content, background="white", color="black", left="", right=""
@@ -85,6 +87,7 @@ class AkaTimer():
 		subprocess.run([
 			"notify-send",
 			"--app-name=akamodoro-daemon",
+			f"--icon={ICON_PATH}",
 			title,
 			message
 		])

@@ -1,6 +1,6 @@
 [project]
 name = "akamodoro"
-version = "0.1.0"
+version = "0.2.0"
 requires-python = ">=3.14"
 
 [project.scripts]
@@ -13,3 +13,8 @@ build-backend = "setuptools.build_meta"
 
 [tool.setuptools.packages.find]
 where = ["src"]
+
+[tool.setuptools.package-data]
+akamodoro = [
+    "assets/*",
+]
