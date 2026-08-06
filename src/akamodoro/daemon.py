@@ -6,20 +6,11 @@ from pathlib import Path
 import subprocess
 from importlib.resources import files
 
+from akapylibguis.utils.powerline import gen_powerline
+
 SOCKET_PATH = os.environ["XDG_RUNTIME_DIR"] + "/akamodoro.sock"
 ICON_PATH = files("akamodoro.assets") / "akamodoro_50x60.png"
 
-def gen_powerline(
-	content, background="white", color="black", left="", right=""
-):
-	"""
-	Generates a powerline style string
-	"""
-	return (
-		f'<span color="{background}">{left}</span>'
-		+ f'<span background="{background}" color="{color}"> {content} </span>'
-		+ f'<span color="{background}">{right}</span>'
-	)
 
 class AkaTimer():
 	status_times = {
@@ -82,13 +73,13 @@ class AkaTimer():
 		if self.status != "standby":
 			m, s = divmod(self.get_remaining(), 60)
 			result += f" {m:02}:{s:02}"
-		return gen_powerline(" ".join(["", result]).strip(), "#c52233", "#360713") if pli else result
+		return gen_powerline(" ".join(["", result]).strip(), foreground="#c52233", color="#360713") if pli else result
 
 	def notify(self, message, title="AKAMDORO"):
 		subprocess.run([
 			"notify-send",
 			"--app-name=akamodoro-daemon",
-			f"--icon={ICON_PATH}",
+			f"--icon=clock",
 			title,
 			message
 		])
